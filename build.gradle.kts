@@ -1,5 +1,6 @@
 plugins {
     `java-gradle-plugin`
+    id("org.jetbrains.kotlin.jvm").version("1.3.21")
     id("com.gradle.plugin-publish") version "0.10.1"
 }
 
@@ -21,4 +22,20 @@ gradlePlugin {
             implementationClass = "com.etherealscope.gradlegitflowversionplugin.GradleGitFlowVersionPlugin"
         }
     }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile(kotlin("stdlib"))
+    compile(kotlin("reflect"))
+    implementation(gradleApi())
+    implementation(localGroovy())
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
