@@ -10,7 +10,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
-public class StartHotfixTask: DefaultTask() {
+public open class StartHotfixTask: DefaultTask() {
 
     @TaskAction
     fun testAction() {
