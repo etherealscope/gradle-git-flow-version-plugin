@@ -28,7 +28,7 @@ public class GitUtil {
     fun getGitBranchType(): GitBranchType {
         val currentBranch = getCurrentGitBranch() ?: return OTHER
         for (item in GitBranchType.values()) {
-            if (currentBranch.startsWith(item.prefix))
+            if (currentBranch.startsWith(item.prefix, true))
                 return item
         }
         return OTHER
@@ -46,6 +46,10 @@ public class GitUtil {
         return !"git diff-index HEAD".runCommand().isNullOrBlank()
     }
 
+    fun shortCommitId(): String {
+        return "git rev-parse --short HEAD".runCommand().orEmpty()
+    }
+
     private fun String.runCommand(): String? {
         try {
             val parts = this.split("\\s".toRegex())
@@ -58,7 +62,7 @@ public class GitUtil {
             proc.waitFor(60, SECONDS)
             val result = proc.inputStream.bufferedReader().readText()
             println(result)
-            return result
+            return result.trim()
         } catch (e: IOException) {
             e.printStackTrace()
             return null

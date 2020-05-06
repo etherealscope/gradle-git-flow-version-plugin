@@ -1,11 +1,12 @@
 plugins {
     `java-gradle-plugin`
+    `maven-publish`
     id("org.jetbrains.kotlin.jvm").version("1.3.21")
     id("com.gradle.plugin-publish") version "0.10.1"
 }
 
 group = "com.etherealscope"
-version = "1.0.0.RELEASE"
+version = "1.6.0.RELEASE"
 
 pluginBundle {
     website = "https://github.com/etherealscope/gradle-git-flow-version-plugin"
