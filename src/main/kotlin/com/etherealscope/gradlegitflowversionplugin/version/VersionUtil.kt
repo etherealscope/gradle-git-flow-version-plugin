@@ -18,6 +18,8 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     val minorKey: String = "app.version.minor"
     val patchKey: String = "app.version.patch"
 
+    val formatter = DateTimeFormatter.ofPattern("yyMMdd")
+
     val versionProps: Properties = Properties()
     val gitUtil: GitUtil = GitUtil()
 
@@ -49,10 +51,10 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     fun getStageVersion(): String {
         when (gitUtil.getGitBranchType()) {
             GitBranchType.MASTER -> return RELEASE.toString()
-            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId()
-            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-dev-" + gitUtil.shortCommitId()
-            GitBranchType.FEATURE -> return SNAPSHOT.toString() + "-feat-" + gitUtil.shortCommitId()
-            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId()
+            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
+            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-dev-" + gitUtil.shortCommitId() + "-" + currentTimeString()
+            GitBranchType.FEATURE -> return SNAPSHOT.toString() + "-feat-" + parseFeatureName() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
+            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
         }
     }
 
@@ -62,6 +64,18 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
 
     fun currentVersionStringWithoutStage(): String {
         return (getMajorVersion() + "." + getMinorVersion() + "." + getPatchVersion())
+    }
+
+    fun currentTimeString(): String {
+        return formatter.format(LocalDateTime.now())
+    }
+
+    fun parseFeatureName(): String {
+        val featureName = gitUtil.getCurrentGitBranch()?.substringAfter("feature/")?.replace("[^a-zA-Z0-9-]".toRegex(), "").orEmpty()
+        if (featureName.isEmpty()) {
+            return featureName
+        }
+        return featureName.substring(0, Math.min(featureName.length, 15))
     }
 
     fun changeVersion(scope: VersionScope) {
