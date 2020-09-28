@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.etherealscope"
-version = "1.0.0.RELEASE"
+version = "1.0.1.RELEASE"
 
 pluginBundle {
     website = "https://github.com/etherealscope/gradle-git-flow-version-plugin"
