@@ -9,7 +9,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
 
-public class GradleGitFlowVersionPlugin : Plugin<Project> {
+public open class GradleGitFlowVersionPlugin : Plugin<Project> {
 
     public override fun apply(project: Project) {
         val versionPropertyFile = File(project.projectDir, "version.properties")
