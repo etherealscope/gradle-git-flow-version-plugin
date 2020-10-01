@@ -13,7 +13,7 @@ import org.gradle.api.tasks.options.OptionValues
 import java.io.File
 
 
-public class ChangeVersionTask: DefaultTask() {
+public open class ChangeVersionTask: DefaultTask() {
 
     private var scope: VersionScope = MINOR
 
