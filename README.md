@@ -33,7 +33,7 @@ optional param _--scope_, default MINOR, possible values MAJOR, MINOR\
 Task increments version, creates branch release/VERSION from develop and push to origin
 
 **startFeature**\
-optional param _--featureName_\
+optional param _--feature-name_\
 Task creates branch feature/featureName from develop and push to origin
 
 **startHotfix**\
