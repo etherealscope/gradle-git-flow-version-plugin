@@ -11,7 +11,7 @@ public class GitUtil {
 
     fun pushVersionFile(versionUtil: VersionUtil) {
         "git add version.properties".runCommand()
-        "git commit -m version.json(%s)".format(versionUtil.currentVersionString()).runCommand()
+        "git commit -m 'version.properties (%s) [skip ci]'".format(versionUtil.currentVersionString()).runCommand()
         "git push".runCommand()
     }
 
