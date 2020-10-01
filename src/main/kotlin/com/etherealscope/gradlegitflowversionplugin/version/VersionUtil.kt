@@ -8,8 +8,6 @@ import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 public class VersionUtil(val versionPropertyFile: File, val project: Project) {
@@ -17,8 +15,6 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     val majorKey: String = "app.version.major"
     val minorKey: String = "app.version.minor"
     val patchKey: String = "app.version.patch"
-
-    val formatter = DateTimeFormatter.ofPattern("yyMMdd")
 
     val versionProps: Properties = Properties()
     val gitUtil: GitUtil = GitUtil()
@@ -51,10 +47,10 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     fun getStageVersion(): String {
         when (gitUtil.getGitBranchType()) {
             GitBranchType.MASTER -> return RELEASE.toString()
-            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
-            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-dev-" + gitUtil.shortCommitId() + "-" + currentTimeString()
-            GitBranchType.FEATURE -> return SNAPSHOT.toString() + "-feat-" + parseFeatureName() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
-            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-" + currentTimeString()
+            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId() + "-"
+            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-"
+            GitBranchType.FEATURE -> return M.toString() + "-" + parseFeatureName() + "-" + gitUtil.shortCommitId()
+            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-"
         }
     }
 
@@ -64,10 +60,6 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
 
     fun currentVersionStringWithoutStage(): String {
         return (getMajorVersion() + "." + getMinorVersion() + "." + getPatchVersion())
-    }
-
-    fun currentTimeString(): String {
-        return formatter.format(LocalDateTime.now())
     }
 
     fun parseFeatureName(): String {
