@@ -47,10 +47,10 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     fun getStageVersion(): String {
         when (gitUtil.getGitBranchType()) {
             GitBranchType.MASTER -> return RELEASE.toString()
-            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId() + "-"
-            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-"
+            GitBranchType.RELEASE, GitBranchType.HOTFIX -> return RC.toString() + "-" + gitUtil.shortCommitId()
+            GitBranchType.DEVELOP -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId()
             GitBranchType.FEATURE -> return M.toString() + "-" + parseFeatureName() + "-" + gitUtil.shortCommitId()
-            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId() + "-"
+            else -> return SNAPSHOT.toString() + "-" + gitUtil.shortCommitId()
         }
     }
 
