@@ -55,6 +55,9 @@ public class VersionUtil(val versionPropertyFile: File, val project: Project) {
     }
 
     fun currentVersionString(): String {
+        if (getStageVersion().equals(RELEASE.toString())) {
+            return currentVersionStringWithoutStage()
+        }
         return (currentVersionStringWithoutStage() + "." + getStageVersion())
     }
 
